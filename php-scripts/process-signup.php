@@ -1,14 +1,51 @@
 <?php
 
-if (empty($_POST["userName"])) 
+if (empty($_POST["lastName"])) 
 {
-    die("Name is required");
+    die("last name is required");
+}
+
+if (empty($_POST["firstName"])) 
+{
+    die("first name is required");
+}
+
+if (empty($_POST["middleName"])) 
+{
+    die("middle name is required");
+}
+
+if (empty($_POST["gender"]))
+{
+    die("gender is required");
+}
+
+if (empty($_POST["birthDate"])) 
+{
+    die("Birth date is required");
 }
 
 if (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
 {
     die("Valid email is required");
 }
+
+if (empty($_POST["cpNum"])) 
+{
+    die("Cellphone number is required");
+}
+
+if (strlen($_POST["cpNum"]) !== 11)
+{
+    die("Cellphone number length should be 11");
+}
+
+$cellphone = trim($_POST['cpNum']);
+
+if (!preg_match('/^(09|\+639)\d{9}$/', $cellphone)) {
+    die("Invalid cellphone number");
+}
+
 
 if (strlen($_POST["password"]) < 8)
 {
@@ -30,11 +67,20 @@ if ($_POST["password"] !== $_POST["password_confirmation"])
     die("Passwords must match");
 }
 
+
+$birthdate = $_POST['birthDate'];
+
+$birthDateObj = new DateTime($birthdate);
+$today = new DateTime('today');
+
+$age = $birthDatObj->diff($today)->y;
+
+
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require __DIR__ . "/../database/database.php";
 
-$sql = "INSERT INTO users (user_name, email, password_hash)
+$sql = "INSERT INTO users (lastname, firstname, middlename, birthdate, age, gender, address, cpnum, email, password_hash)
         VALUES (?, ?, ?)";
 
 $stmt = $mysqli->stmt_init();
@@ -44,8 +90,15 @@ if (! $stmt->prepare($sql))
     die("SQL error: " . $mysqli->error);
 }
 
-$stmt->bind_param("sss",
-                $_POST["userName"],
+$stmt->bind_param("ssssisssss",
+                $_POST["lastName"],
+                $_POST["firstName"],
+                $_POST["middleName"],
+                $_POST["birthDate"],
+                $age,
+                $_POST["gender"],
+                $_POST["address"],
+                $_POST["cpNum"],
                 $_POST["email"],
                 $password_hash);
 
@@ -58,6 +111,8 @@ $stmt->bind_param("sss",
 //     echo "Error choy";
 //     die($mysqli->error . " " . $mysqli->errno);
 // }
+
+
 
 try {
     $stmt->execute();

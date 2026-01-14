@@ -55,7 +55,7 @@ session_start();
         </div>
         
     </main>
-    <div class="logIn-area">
+    <!-- <div class="logIn-area">
         <h2>Sign Up</h2>
         <form action="./php-scripts/process-signup.php" method="post" novalidate>
             <div>
@@ -64,7 +64,7 @@ session_start();
             </div>
 
             <div>
-                <label for="">Email</label>
+                <label for="email">Email</label>
                 <input type="email" name="email">
             </div>
 
@@ -80,7 +80,7 @@ session_start();
 
             <button>Sign Up</button>
         </form>
-    </div>
+    </div> -->
     <footer>
         <p>2026-MON</p>
     </footer>
