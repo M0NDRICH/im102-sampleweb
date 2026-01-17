@@ -4,9 +4,29 @@ $is_invalid = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
+    if (! filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
+    {
+        $is_invalid = true;
+    }
+
+    if (strlen($_POST["password"]) < 8)
+    {
+        $is_invalid = true;
+    }
+
+    if (! preg_match("/[a-z]/i", $_POST["password"]))
+    {
+        $is_invalid = true;
+    }
+
+    if (! preg_match("/[0-9]/i", $_POST["password"]))
+    {
+        $is_invalid = true;
+    }
+
     $mysqli = require __DIR__ . "/database/database.php";
 
-    $sql = sprintf("SELECT * FROM users WHERE email = '%s'",
+    $sql = sprintf("SELECT * FROM user_regs WHERE email = '%s'",
             $mysqli->real_escape_string($_POST["email"]));
 
     $result = $mysqli->query($sql);
@@ -20,15 +40,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
             session_start();
 
             $_SESSION["user_id"] = $user["user_id"];
-            
-
-            header("Location: main.php");
-            exit;
+            $_SESSION["user_last_name"] = $user["lastname"];
+            $_SESSION["user_first_name"] = $user["firstname"];
+            //header("Location: main.php");
+            //exit;
         }
     }
 
+
+    if (! $is_invalid)
+    {
+        $sql_log = "INSERT INTO user_logs (user_id, email, password_hash)
+                    VALUES (?, ?, ?)";
+
+        $log_password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+        $stmt_log = $mysqli->stmt_init();
+
+        if (! $stmt_log->prepare($sql_log))
+        {
+            die("SQL error: " . $mysqli->error);
+        }
+
+        $stmt_log->bind_param("iss",
+                        $user["user_id"],
+                        $_POST["email"],
+                        $log_password);
+        
+        try{
+            $stmt_log->execute();
+            header("Location: main.php");
+            exit;
+        }
+        catch (mysqli_sql_exception $e)
+        {
+             echo "Database error" . $e->getMessage();
+        }
+    }
     $is_invalid = true;
-}
+} 
 
 ?>
 <!DOCTYPE html>

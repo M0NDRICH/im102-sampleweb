@@ -27,8 +27,12 @@ session_start();
         <div class="box1">
             <div class="text-area">
                 <?php if (isset($_SESSION["user_id"])): ?>
-                    <p class="first-name">Login</p>
-                    <p class="last-name">Successful</p>
+                    <p class="first-name">
+                        <?=  $_SESSION["user_last_name"]; ?>
+                    </p>
+                    <p class="last-name">
+                        <?=  $_SESSION["user_first_name"]; ?>
+                    </p>
                     <hr>
                     <p class="other-text">
                         There is a time for everything, and a season for every activity under the heavens.
@@ -37,8 +41,8 @@ session_start();
                     </p>
                     <p><a href="logout.php">Log out</a></p>
                 <?php else: ?>
-                    <p class="first-name">Richmond</p>
-                    <p class="last-name">Batoto</p>
+                    <p class="first-name">The Weavile</p>
+                    <p class="last-name">Project</p>
                     <hr>
                     <p class="other-text">
                         There is a time for everything, and a season for every activity under the heavens.
