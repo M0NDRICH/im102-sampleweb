@@ -73,15 +73,15 @@ $birthdate = $_POST['birthDate'];
 $birthDateObj = new DateTime($birthdate);
 $today = new DateTime('today');
 
-$age = $birthDatObj->diff($today)->y;
+$age = $birthDateObj->diff($today)->y;
 
 
 $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require __DIR__ . "/../database/database.php";
 
-$sql = "INSERT INTO users (lastname, firstname, middlename, birthdate, age, gender, address, cpnum, email, password_hash)
-        VALUES (?, ?, ?)";
+$sql = "INSERT INTO user_regs (lastname, firstname, middlename, birthdate, age, gender, address, cpnum, email, password_hash)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $mysqli->stmt_init();
 
