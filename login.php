@@ -107,7 +107,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
 
-        <button>Log in</button>
+        <button class="login-btn">Log in</button>
     </form>
+    <div class="other-link">
+        <p>Don't have an account? <a href="./signup.php">SignUp</a></p>
+    </div>
 </body>
 </html>

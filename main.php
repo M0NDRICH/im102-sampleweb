@@ -49,6 +49,10 @@ session_start();
                         <br>
                         - Ecclesiastes 3:1
                     </p>
+                    <div class="other-links">
+                        <a href="./login.php">Log In</a> or
+                        <a href="./signup.php">Sign Up</a>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="vid-frame">
@@ -86,7 +90,8 @@ session_start();
         </form>
     </div> -->
     <footer>
-        <p>2026-MON</p>
+        <hr>
+        <p>©MON 2026</p>
     </footer>
 </body>
 </html>
