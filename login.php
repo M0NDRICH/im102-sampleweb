@@ -42,6 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
             $_SESSION["user_id"] = $user["user_id"];
             $_SESSION["user_last_name"] = $user["lastname"];
             $_SESSION["user_first_name"] = $user["firstname"];
+            $_SESSION["user_email"] = $user["email"];
+            $_SESSION["user_contact"] = $user["cpnum"];
+            $_SESSION["user_birthdate"] = $user["birthdate"];
+            $_SESSION["user_age"] = $user["age"];
             //header("Location: main.php");
             //exit;
         }
